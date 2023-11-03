@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  app:
+    build: ./yugo
+    ports:
+      - "5173:5173"
+    depends_on:
+      - db
+      - tile-server
+    environment:
+      - DATABASE_URL=postgres://yugodb:yugoDBpass@db:5432/yugodb
+      - TILE_SERVER_URL=http://tile-server:5148
+
+  db:
+    image: postgis/postgis
+    environment:
+      POSTGRES_USER: yugodb
+      POSTGRES_PASSWORD: yugoDBpass
+      POSTGRES_DB: yugodb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  tile-server:
+    image: yugo-tile-server
+    ports:
+      - "5148:5148"
+    volumes:
+      - ./yugo-tile-server/config.json:/config.json
+    depends_on:
+      - db
+
+volumes:
+  pg_data:

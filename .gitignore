@@ -1,3 +1,11 @@
 node_modules
 dist
-.idea
+.idea/
+yugo/.idea/
+croatia*
+bosnia*
+serbia*
+slovenia*
+montenegro*
+macedonia*
+yugo-latest*
